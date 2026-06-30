@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>CD Huancayo | Centro de Control Operativo</title>
+
+<style>
+:root{
+  --black-1000:#030303;
+  --black-950:#070707;
+  --black-900:#0d0d0d;
+  --black-850:#151515;
+
+  --gold:#f5c542;
+  --gold-soft:#ffe28a;
+
+  --white:#ffffff;
+  --steel-soft:rgba(244,246,248,.72);
+
+  --line:rgba(245,197,66,.20);
+  --shadow:0 18px 46px rgba(0,0,0,.46);
+
+  --pad:10px;
+  --gap:10px;
+  --top-h:76px;
+  --viewer-head-h:42px;
+  --sidebar-w:285px;
+}
+
+*{ box-sizing:border-box; }
+
+html,
+body{
+  width:100%;
+  height:100%;
+  margin:0;
+}
+
+body{
+  font-family:"Segoe UI", Arial, sans-serif;
+  color:var(--white);
+  background:
+    radial-gradient(900px 500px at 10% -8%, rgba(245,197,66,.18), transparent 58%),
+    radial-gradient(720px 420px at 96% 2%, rgba(255,255,255,.07), transparent 55%),
+    linear-gradient(135deg, var(--black-1000) 0%, var(--black-950) 45%, var(--black-850) 100%);
+  overflow:hidden;
+}
+
+/* ===== APP FULL VIEWPORT ===== */
+.app{
+  width:100vw;
+  height:100dvh;
+  min-height:100dvh;
+  padding:var(--pad);
+  display:grid;
+  grid-template-rows:var(--top-h) minmax(0, 1fr) 26px;
+  gap:var(--gap);
+}
+
+/* ===== TOP COMPACT ===== */
+.top{
+  position:relative;
+  min-height:0;
+  height:var(--top-h);
+  padding:8px 14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:linear-gradient(135deg, rgba(20,20,20,.96), rgba(5,5,5,.90));
+  box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.05);
+  overflow:hidden;
+}
+
+.top::after{
+  content:"";
+  position:absolute;
+  left:18px;
+  right:18px;
+  bottom:0;
+  height:2px;
+  border-radius:20px;
+  background:linear-gradient(90deg, transparent, var(--gold), var(--white), var(--gold), transparent);
+  opacity:.8;
+}
+
+.brand{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+}
+
+.logo{
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  background:linear-gradient(145deg, #0b0b0b, #000000);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:2px solid rgba(245,197,66,.72);
+  box-shadow:0 0 0 4px rgba(245,197,66,.08), 0 10px 22px rgba(0,0,0,.42);
+  flex-shrink:0;
+  overflow:hidden;
+}
+
+.logo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.brand-text{ min-width:0; }
+
+.brand-kicker{
+  margin-bottom:3px;
+  font-size:10px;
+  letter-spacing:1.6px;
+  font-weight:900;
+  color:var(--gold-soft);
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+
+.brand-title{
+  margin:0;
+  font-size:20px;
+  font-weight:950;
+  line-height:1.05;
+  color:var(--white);
+  letter-spacing:.2px;
+  text-transform:uppercase;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.brand-subtitle{
+  margin-top:4px;
+  font-size:11px;
+  color:var(--steel-soft);
+  font-weight:650;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.status{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 11px;
+  border:1px solid rgba(245,197,66,.25);
+  border-radius:999px;
+  background:rgba(245,197,66,.08);
+  color:var(--gold-soft);
+  font-size:11px;
+  font-weight:850;
+  white-space:nowrap;
+}
+
+.status-dot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 0 4px rgba(245,197,66,.10), 0 0 14px rgba(245,197,66,.75);
+}
+
+/* ===== MAIN ===== */
+.main{
+  min-height:0;
+  display:grid;
+  grid-template-columns:var(--sidebar-w) minmax(0, 1fr);
+  gap:var(--gap);
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  min-height:0;
+  padding:10px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:linear-gradient(180deg, rgba(18,18,18,.94), rgba(5,5,5,.88));
+  box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.04);
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  overflow-y:auto;
+  overflow-x:hidden;
+}
+
+.sidebar-title{
+  margin:0 2px 4px;
+  font-size:11px;
+  font-weight:950;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+  color:var(--gold-soft);
+}
+
+.btn{
+  position:relative;
+  width:100%;
+  min-height:62px;
+  padding:10px 11px;
+  border-radius:15px;
+  border:1px solid rgba(255,255,255,.09);
+  background:linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
+  color:var(--white);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-align:left;
+  transition:all .18s ease;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+}
+
+.btn::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:9px;
+  bottom:9px;
+  width:4px;
+  border-radius:10px;
+  background:transparent;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  border-color:rgba(245,197,66,.36);
+  background:linear-gradient(135deg, rgba(245,197,66,.11), rgba(255,255,255,.035));
+}
+
+.btn.active{
+  border-color:rgba(245,197,66,.64);
+  background:linear-gradient(135deg, rgba(245,197,66,.20), rgba(255,255,255,.045));
+  box-shadow:0 0 0 1px rgba(245,197,66,.12), 0 12px 26px rgba(0,0,0,.36);
+}
+
+.btn.active::before{
+  background:linear-gradient(180deg, var(--gold), var(--gold-soft));
+  box-shadow:0 0 13px rgba(245,197,66,.72);
+}
+
+.btn-icon{
+  width:38px;
+  height:38px;
+  border-radius:13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);
+  flex-shrink:0;
+}
+
+.btn.active .btn-icon{
+  background:rgba(245,197,66,.16);
+  border-color:rgba(245,197,66,.34);
+}
+
+.btn-text{ min-width:0; }
+
+.btn-title{
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:.15px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.btn-desc{
+  margin-top:2px;
+  font-size:10px;
+  color:var(--steel-soft);
+  font-weight:600;
+  line-height:1.22;
+}
+
+/* ===== POWER BI VIEWER PRIORITY ===== */
+.viewer-wrap{
+  min-width:0;
+  min-height:0;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:linear-gradient(180deg, rgba(18,18,18,.94), rgba(5,5,5,.88));
+  box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.04);
+  padding:8px;
+  display:grid;
+  grid-template-rows:var(--viewer-head-h) minmax(0, 1fr);
+  gap:8px;
+}
+
+.viewer-head{
+  min-height:0;
+  height:var(--viewer-head-h);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:0 4px;
+}
+
+.viewer-title-block{ min-width:0; }
+
+.viewer-title{
+  font-size:13px;
+  font-weight:950;
+  color:var(--white);
+  letter-spacing:.2px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.viewer-subtitle{
+  margin-top:2px;
+  font-size:10.5px;
+  color:var(--steel-soft);
+  font-weight:600;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.viewer-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-shrink:0;
+}
+
+
+.viewer-badge{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  height:30px;
+  padding:0 10px;
+  border-radius:999px;
+  border:1px solid rgba(245,197,66,.25);
+  background:rgba(245,197,66,.08);
+  color:var(--gold-soft);
+  font-size:11px;
+  font-weight:850;
+  white-space:nowrap;
+}
+
+.viewer-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 14px rgba(245,197,66,.85);
+}
+
+.viewer{
+  position:relative;
+  min-height:0;
+  overflow:hidden;
+  border-radius:14px;
+  background:#ffffff;
+  border:1px solid rgba(245,197,66,.28);
+  box-shadow:0 10px 28px rgba(0,0,0,.38);
+}
+
+iframe{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+  background:#fff;
+}
+
+/* Footer compacto: conserva derechos sin quitar espacio importante al Power BI */
+.footer{
+  min-height:0;
+  height:26px;
+  padding:0 12px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:linear-gradient(135deg, rgba(18,18,18,.92), rgba(5,5,5,.86));
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+  overflow:hidden;
+}
+
+.footer-left{
+  font-size:10px;
+  color:var(--steel-soft);
+  font-weight:700;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* ===== SCROLL ===== */
+.sidebar::-webkit-scrollbar{
+  width:8px;
+  height:8px;
+}
+
+.sidebar::-webkit-scrollbar-track{
+  background:rgba(255,255,255,.03);
+  border-radius:10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+  background:rgba(245,197,66,.28);
+  border-radius:10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover{
+  background:rgba(245,197,66,.50);
+}
+
+/* ===== TABLET / LAPTOP PEQUEÑA ===== */
+@media (max-width:1100px){
+  :root{
+    --sidebar-w:250px;
+    --top-h:70px;
+    --pad:8px;
+    --gap:8px;
+  }
+
+  .brand-title{ font-size:18px; }
+  .brand-subtitle{ display:none; }
+  .btn-desc{ display:none; }
+  .btn{ min-height:54px; }
+}
+
+/* ===== MÓVIL: POWER BI CON MÁXIMO ALTO ===== */
+@media (max-width:760px){
+  body{
+    overflow:hidden;
+  }
+
+  :root{
+    --pad:6px;
+    --gap:6px;
+    --top-h:58px;
+    --viewer-head-h:34px;
+  }
+
+  .app{
+    grid-template-rows:var(--top-h) minmax(0, 1fr);
+  }
+
+  .footer{
+    display:none;
+  }
+
+  .top{
+    padding:6px 9px;
+    border-radius:14px;
+  }
+
+  .logo{
+    width:44px;
+    height:44px;
+  }
+
+  .brand{
+    gap:8px;
+  }
+
+  .brand-kicker{
+    display:none;
+  }
+
+  .brand-title{
+    font-size:15px;
+    max-width:calc(100vw - 82px);
+  }
+
+  .brand-subtitle,
+  .status{
+    display:none;
+  }
+
+  .main{
+    grid-template-columns:1fr;
+    grid-template-rows:52px minmax(0, 1fr);
+    gap:var(--gap);
+  }
+
+  .sidebar{
+    min-height:0;
+    height:52px;
+    padding:5px;
+    border-radius:14px;
+    flex-direction:row;
+    overflow-x:auto;
+    overflow-y:hidden;
+    gap:6px;
+  }
+
+  .sidebar-title{
+    display:none;
+  }
+
+  .btn{
+    width:auto;
+    min-width:122px;
+    max-width:150px;
+    min-height:40px;
+    height:40px;
+    padding:6px 9px;
+    border-radius:12px;
+    gap:7px;
+    flex-shrink:0;
+  }
+
+  .btn::before{
+    top:auto;
+    left:10px;
+    right:10px;
+    bottom:0;
+    width:auto;
+    height:3px;
+  }
+
+  .btn-icon{
+    width:28px;
+    height:28px;
+    border-radius:9px;
+    font-size:15px;
+  }
+
+  .btn-title{
+    font-size:11.5px;
+  }
+
+  .btn-desc{
+    display:none;
+  }
+
+  .viewer-wrap{
+    padding:5px;
+    border-radius:14px;
+    gap:5px;
+    grid-template-rows:var(--viewer-head-h) minmax(0, 1fr);
+  }
+
+  .viewer-head{
+    height:var(--viewer-head-h);
+    padding:0 2px;
+  }
+
+  .viewer-title{
+    font-size:11.5px;
+  }
+
+  .viewer-subtitle,
+  .viewer-badge{
+    display:none;
+  }
+
+  
+  .viewer{
+    border-radius:12px;
+  }
+}
+
+/* ===== MÓVIL MUY PEQUEÑO: OCULTA CABECERA DEL VISOR ===== */
+@media (max-width:430px){
+  :root{
+    --top-h:54px;
+  }
+
+  .main{
+    grid-template-rows:48px minmax(0, 1fr);
+  }
+
+  .sidebar{
+    height:48px;
+  }
+
+  .btn{
+    min-width:112px;
+    height:38px;
+  }
+
+  .viewer-wrap{
+    grid-template-rows:minmax(0, 1fr);
+  }
+
+  .viewer-head{
+    display:none;
+  }
+}
+</style>
+
+<link rel="icon" href="imagenes/logo_huancayo.png" type="image/png">
+</head>
+
+<body>
+<div class="app">
+
+  <div class="top">
+    <div class="brand">
+      <div class="logo">
+        <img src="imagenes/logo_huancayo.png" alt="Logo CD Huancayo">
+      </div>
+
+      <div class="brand-text">
+        <div class="brand-kicker">Quality & Safety in Motion</div>
+        <h1 class="brand-title">CD Huancayo | Centro de Control Operativo</h1>
+        <div class="brand-subtitle">
+          Servicio, rechazos, reclamos, modulación y gestión operativa en una sola vista ejecutiva
+        </div>
+      </div>
+    </div>
+
+    <div class="status">
+      <span class="status-dot"></span>
+      Monitoreo activo
+    </div>
+  </div>
+
+  <div class="main">
+
+    <div class="sidebar">
+      <div class="sidebar-title">Dashboards disponibles</div>
+
+      <button
+        class="btn active"
+        data-src="https://app.powerbi.com/view?r=eyJrIjoiNzIxNzBiNjctODg0OS00NzlhLWEyOTQtMDZlYTRjZTA4MGEzIiwidCI6IjEwYWVmMTg5LTA1ZGItNGY2Zi05NTdmLTI3MGY5N2JmNTAzYiIsImMiOjZ9"
+        data-title="MCRS Servicio"
+        data-desc="NPS, RMD, reclamos y modulación mensual">
+        <div class="btn-icon">⭐</div>
+        <div class="btn-text">
+          <div class="btn-title">MCRS Servicio</div>
+          <div class="btn-desc">NPS · RMD · Reclamos · Modulación</div>
+        </div>
+      </button>
+
+      <button
+        class="btn"
+        data-src="https://app.powerbi.com/view?r=eyJrIjoiNDk4MDRlYzktOTQwNi00NGQyLTg4N2MtOWY0NTM3ZjI3M2MyIiwidCI6IjEwYWVmMTg5LTA1ZGItNGY2Zi05NTdmLTI3MGY5N2JmNTAzYiIsImMiOjZ9"
+        data-title="MR 360"
+        data-desc="Análisis integral de rechazos y clientes críticos">
+        <div class="btn-icon">📊</div>
+        <div class="btn-text">
+          <div class="btn-title">MR 360</div>
+          <div class="btn-desc">Rechazos · Motivos · Pareto · Riesgo</div>
+        </div>
+      </button>
+
+      <button
+        class="btn"
+        data-src="https://app.powerbi.com/view?r=eyJrIjoiYTcxYTA3YjUtMWFkZi00NDVkLWFmNDAtMzdiN2Q0YzYxYTllIiwidCI6IjlkNDdiZGNmLWUxMGEtNDczYy05NmU4LTA3MDc5YzZmNTk5MiIsImMiOjR9"
+        data-title="SIC-MR Actual"
+        data-desc="Rechazos del día y avance de rutas">
+        <div class="btn-icon">🚚</div>
+        <div class="btn-text">
+          <div class="btn-title">SIC-MR Actual</div>
+          <div class="btn-desc">Día actual · Rutas · BEES · Modulación</div>
+        </div>
+      </button>
+
+      <button
+        class="btn"
+        data-src="https://app.powerbi.com/view?r=eyJrIjoiYWYzNGZkMTEtOTc4YS00YjlhLWE4MzQtODFmZDI0OTBlOGJmIiwidCI6IjEwYWVmMTg5LTA1ZGItNGY2Zi05NTdmLTI3MGY5N2JmNTAzYiIsImMiOjZ9"
+        data-title="Reclamos"
+        data-desc="Gestión detallada de reclamos y tiempos">
+        <div class="btn-icon">📌</div>
+        <div class="btn-text">
+          <div class="btn-title">Reclamos</div>
+          <div class="btn-desc">Ingresados · Resolución · Seguimiento</div>
+        </div>
+      </button>
+
+      <button
+        class="btn"
+        data-src="https://app.powerbi.com/view?r=eyJrIjoiMjAzYjg3MGQtN2U2OS00ZGI1LThjZGEtYjAxZTVkMzFiNjkxIiwidCI6IjlkNDdiZGNmLWUxMGEtNDczYy05NmU4LTA3MDc5YzZmNTk5MiIsImMiOjR9"
+        data-title="WS-Modulación"
+        data-desc="Workstation de reparto y modulación detallada">
+        <div class="btn-icon">🧭</div>
+        <div class="btn-text">
+          <div class="btn-title">WS-Modulación</div>
+          <div class="btn-desc">Workstation · Evolución · Detalle mensual</div>
+        </div>
+      </button>
+    </div>
+
+    <div class="viewer-wrap">
+      <div class="viewer-head">
+        <div class="viewer-title-block">
+          <div class="viewer-title" id="viewerTitle">Visual activa: MCRS Servicio</div>
+          <div class="viewer-subtitle" id="viewerSubtitle">
+            NPS, RMD, reclamos y modulación mensual
+          </div>
+        </div>
+
+        <div class="viewer-actions">
+          <!-- Sin botón externo: todos los reportes se visualizan únicamente dentro del portal -->
+<div class="viewer-badge">
+            <span class="viewer-dot"></span>
+            Power BI
+          </div>
+        </div>
+      </div>
+
+      <div class="viewer">
+        <iframe
+          id="frame"
+          src="https://app.powerbi.com/view?r=eyJrIjoiNzIxNzBiNjctODg0OS00NzlhLWEyOTQtMDZlYTRjZTA4MGEzIiwidCI6IjEwYWVmMTg5LTA1ZGItNGY2Zi05NTdmLTI3MGY5N2JmNTAzYiIsImMiOjZ9"
+          allowfullscreen="true">
+        </iframe>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">© 2026 CD Huancayo · Centro de Distribución</div>
+  </div>
+
+</div>
+
+<script>
+const btns = document.querySelectorAll('.btn');
+const frame = document.getElementById('frame');
+const viewerTitle = document.getElementById('viewerTitle');
+const viewerSubtitle = document.getElementById('viewerSubtitle');
+
+btns.forEach(btn => {
+  btn.onclick = () => {
+    btns.forEach(x => x.classList.remove('active'));
+    btn.classList.add('active');
+
+    frame.src = btn.dataset.src;
+    viewerTitle.textContent = 'Visual activa: ' + btn.dataset.title;
+    viewerSubtitle.textContent = btn.dataset.desc;
+  };
+});
+</script>
+</body>
+</html>
